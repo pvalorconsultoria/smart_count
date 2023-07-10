@@ -205,7 +205,7 @@ class App:
         """
         for contour in contours:
             contour.draw(self.current_frame)
-            contour.getBoudingBox().draw(self.current_frame)
+            contour.get_bounding_box().draw(self.current_frame)
 
     def _draw_recognized_objects(self, recognized_objects):
         """

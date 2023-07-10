@@ -1,16 +1,16 @@
 import cv2
 import numpy as np
 
-PIECE_WIDTH  = 112
-PIECE_HEIGHT = 66 
+PIECE_WIDTH  = 120
+PIECE_HEIGHT = 120
 
-video_path = "C:\\Users\\diego\\Code\\OpenCV\\assets\\video2.mp4"
+video_path = "C:\\Users\\diego\\Code\\OpenCV\\assets\\video_thyssen.mp4"
 
 cap = cv2.VideoCapture(video_path)
 
 is_moving = False
 frame = None
-count = 305
+count = 28
 
 target_x, target_y = None, None
 
@@ -30,7 +30,7 @@ def save_target_to_folder(label):
 
     target = frame[target_y+2:target_y-2+PIECE_HEIGHT, target_x+2:target_x-2+PIECE_WIDTH, :]
 
-    cv2.imwrite(f'./dataset/{count}_{label}.png', target)
+    cv2.imwrite(f'./datasets/TK_1/{count}_{label}.png', target)
 
     count += 1
 

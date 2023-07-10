@@ -12,6 +12,8 @@ class ObjectConfig:
     MAX_AREA: int
     CLIP_WIDTH: int
     CLIP_HEIGHT: int
+    CONVEYOR_DIRECTION: int
+    CONVEYOR_SPEED: int
     DETECTION_THRESHOLD: float
     TF_MODEL_PATH: str
 

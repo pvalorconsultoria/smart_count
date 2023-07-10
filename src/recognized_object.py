@@ -70,9 +70,17 @@ class RecognizedObject:
         x, y, w, h = self.track_piece
         nx, ny = map(int, track_box[:2])
 
+        if self.config.CONVEYOR_DIRECTION == 'RIGHT':
+            x = max(x + self.config.CONVEYOR_SPEED, nx)
+        elif self.config.CONVEYOR_DIRECTION == 'LEFT':
+            x = min(x - self.config.CONVEYOR_SPEED, nx)
+        elif self.config.CONVEYOR_DIRECTION == 'DOWN':
+            y = max(y + self.config.CONVEYOR_SPEED, ny)
+        elif self.config.CONVEYOR_DIRECTION == 'UP':
+            y = min(y - self.config.CONVEYOR_SPEED, ny)
+
         # Update the position of the bounding box 
-        # 3 is added to x to consider movement due to conveyor belt
-        self.track_piece = (max(x + 3, nx), ny, w, h)
+        self.track_piece = (x, y, w, h)
 
         # Check if bounding box has reached edge of frame
         frame_height, frame_width = frame.shape[:2]
