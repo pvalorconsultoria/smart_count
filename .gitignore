@@ -1,0 +1,7 @@
+.ipynb_checkpoints
+__pycache__
+datasets/*/*.png
+assets/*.mp4
+assets/*.png
+*.h5
+old

@@ -1,0 +1,16 @@
+import cv2
+
+from src.app import App
+
+if __name__ == '__main__':
+    path = "assets\\video.mp4"
+    config = "config\\basic.yaml"
+
+    app = App(path, config)
+
+    while app.is_opened():
+        app.process_frame()
+
+        if cv2.waitKey(40) == 27:
+            app.release_resources()    
+

@@ -1,0 +1,16 @@
+SMARTCOUNT_LOGO_PATH: assets\logo_smartcount.jpeg
+FRAME_NAME: Video Feed
+OUTPUT_VIDEO_PATH: output.mp4
+TERM_CRITERIA: [3, 10, 1]
+FRAMES_TO_SKIP: 2
+
+OBJECTS:
+  - NAME: MP_1
+    DATASET_FOLDER: datasets\MP_1
+    MIN_AREA: 600
+    MAX_AREA: 1000
+    CLIP_WIDTH: 108
+    CLIP_HEIGHT: 62
+    DETECTION_THRESHOLD: 0.85
+    TF_MODEL_PATH: models\model_v3.h5
+
