@@ -2,7 +2,7 @@ from attr import dataclass
 
 import yaml
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 @dataclass
 class ObjectConfig:
@@ -12,10 +12,16 @@ class ObjectConfig:
     MAX_AREA: int
     CLIP_WIDTH: int
     CLIP_HEIGHT: int
-    CONVEYOR_DIRECTION: int
-    CONVEYOR_SPEED: int
     DETECTION_THRESHOLD: float
     TF_MODEL_PATH: str
+
+    CLIP_STRATEGY: Optional[str] = None
+    CONVEYOR_DIRECTION: Optional[int] = None
+    CONVEYOR_SPEED: Optional[int] = None
+    CAPTURE_FRAME_ORIENTATION: Optional[str] = None
+    CAPTURE_FRAME_START: Optional[int] = None
+    CAPTURE_FRAME_END: Optional[int] = None
+
 
 class DependencyManager:
     config = None

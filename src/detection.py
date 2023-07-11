@@ -103,15 +103,24 @@ class Detection:
         Returns:
         list[ImageClip]: The list of clipped image segments.
         """
-        (left_anchor, top_anchor), (right_anchor, top_anchor) = self._get_anchor_points()
-
-        clip_left = self.frame[top_anchor : top_anchor + self.config.CLIP_HEIGHT, left_anchor : left_anchor + self.config.CLIP_WIDTH, :]
-        clip_right = self.frame[top_anchor : top_anchor + self.config.CLIP_HEIGHT, right_anchor : right_anchor + self.config.CLIP_WIDTH, :]
-
         clips = []
-        if clip_left.shape == (self.config.CLIP_HEIGHT, self.config.CLIP_WIDTH, 3):
-            clips.append(ImageClip(left_anchor, top_anchor, clip_left, self.config))
-        if clip_right.shape == (self.config.CLIP_HEIGHT, self.config.CLIP_WIDTH, 3):
-            clips.append(ImageClip(right_anchor, top_anchor, clip_right, self.config))
+
+        if self.config.CLIP_STRATEGY == 'ANCHOR_POINTS':        
+            (left_anchor, top_anchor), (right_anchor, top_anchor) = self._get_anchor_points()
+
+            clip_left = self.frame[top_anchor : top_anchor + self.config.CLIP_HEIGHT, left_anchor : left_anchor + self.config.CLIP_WIDTH, :]
+            clip_right = self.frame[top_anchor : top_anchor + self.config.CLIP_HEIGHT, right_anchor : right_anchor + self.config.CLIP_WIDTH, :]
+
+            if clip_left.shape == (self.config.CLIP_HEIGHT, self.config.CLIP_WIDTH, 3):
+                clips.append(ImageClip(left_anchor, top_anchor, clip_left, self.config))
+            if clip_right.shape == (self.config.CLIP_HEIGHT, self.config.CLIP_WIDTH, 3):
+                clips.append(ImageClip(right_anchor, top_anchor, clip_right, self.config))
+        else:
+            x, y, _, _ = self.contour.get_bounding_box().get_coordinates()
+            
+            clip = self.frame[y : y + self.config.CLIP_HEIGHT, x : x + self.config.CLIP_WIDTH, :]
+            
+            if clip.shape[:2] == (self.config.CLIP_HEIGHT, self.config.CLIP_WIDTH):        
+                clips.append(ImageClip(x, y, clip, self.config))
 
         return clips

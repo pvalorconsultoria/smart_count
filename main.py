@@ -6,8 +6,11 @@ if __name__ == '__main__':
     #path = "assets\\video.mp4"
     #config = "config\\basic.yaml"
     
-    path = "assets\\video_thyssen.mp4"
-    config = "config\\thyssen_krupp.yaml"
+    #path = "assets\\video_thyssen.mp4"
+    #config = "config\\thyssen_krupp.yaml"
+
+    path = "assets\\video_clips.mp4"
+    config = "config\\clips.yaml"
 
     app = App(path, config)
 

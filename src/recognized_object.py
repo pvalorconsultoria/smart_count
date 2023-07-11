@@ -47,7 +47,8 @@ class RecognizedObject:
         cv2.putText(frame, f'{self.count} | {self.confidence:0.3f}', 
                     (x + 5, y + 15), cv2.FONT_HERSHEY_SIMPLEX, 
                     0.5, (0, 0, 255), 2)
-
+        
+        
     def get_bounding_coords(self):
         """
         Gets the coordinates of the bounding box of the recognized object.
@@ -57,6 +58,25 @@ class RecognizedObject:
         """
         x, y, w, h = self.track_piece
         return x, y, x + w, y + h
+
+    def has_surpassed_capture_frame(self, x, y):
+        """
+        Checks if the bounding box has surpassed the capture frame.
+
+        Parameters:
+        x (int): The x-coordinate of the top left corner of the bounding box.
+        y (int): The y-coordinate of the top left corner of the bounding box.
+
+        Returns:
+        bool: True if the bounding box has surpassed the capture frame, False otherwise.
+        """
+        if self.config.CAPTURE_FRAME_ORIENTATION == 'HORIZONTAL':
+            if not (self.config.CAPTURE_FRAME_START <= x <= self.config.CAPTURE_FRAME_END):
+                return True
+        elif self.config.CAPTURE_FRAME_ORIENTATION == 'VERTICAL':
+            if not (self.config.CAPTURE_FRAME_START <= y <= self.config.CAPTURE_FRAME_END):
+                return True
+        return False
 
     def track(self, frame):
         """
@@ -78,15 +98,27 @@ class RecognizedObject:
             y = max(y + self.config.CONVEYOR_SPEED, ny)
         elif self.config.CONVEYOR_DIRECTION == 'UP':
             y = min(y - self.config.CONVEYOR_SPEED, ny)
+        elif self.config.CONVEYOR_DIRECTION == 'DIAG':
+            x = min(nx, x + self.config.CONVEYOR_SPEED)
+            y = min(ny, y + self.config.CONVEYOR_SPEED)
+        else:
+            x, y = nx, ny
 
         # Update the position of the bounding box 
         self.track_piece = (x, y, w, h)
 
         # Check if bounding box has reached edge of frame
         frame_height, frame_width = frame.shape[:2]
-        if any([coord <= 0 or coord >= dim for coord, dim in zip(self.track_piece[:2], [frame_width, frame_height])]):
-            # Left or right edge, or top or bottom edge
-            self.lost_track = True
+
+        # If the capture frame orientation is not set, use previous strategy
+        if self.config.CAPTURE_FRAME_ORIENTATION is None:
+            # Check if bounding box has reached edge of frame
+            frame_height, frame_width = frame.shape[:2]
+            if any([coord <= 0 or coord >= dim for coord, dim in zip(self.track_piece[:2], [frame_width, frame_height])]):
+                # Left or right edge, or top or bottom edge
+                self.lost_track = True
+        else:
+            self.lost_track = self.has_surpassed_capture_frame(x, y)
 
         if not self.lost_track:
             self.draw(frame)
