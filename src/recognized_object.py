@@ -70,12 +70,15 @@ class RecognizedObject:
         Returns:
         bool: True if the bounding box has surpassed the capture frame, False otherwise.
         """
-        if self.config.CAPTURE_FRAME_ORIENTATION == 'HORIZONTAL':
-            if not (self.config.CAPTURE_FRAME_START <= x <= self.config.CAPTURE_FRAME_END):
-                return True
-        elif self.config.CAPTURE_FRAME_ORIENTATION == 'VERTICAL':
-            if not (self.config.CAPTURE_FRAME_START <= y <= self.config.CAPTURE_FRAME_END):
-                return True
+        if not self.config.HAS_CAPTURE_FRAME:
+            return False
+
+        if not (
+            self.config.CAPTURE_FRAME_X <= x <= self.config.CAPTURE_FRAME_X + self.config.CAPTURE_FRAME_WIDTH and
+            self.config.CAPTURE_FRAME_Y <= y <= self.config.CAPTURE_FRAME_Y + self.config.CAPTURE_FRAME_HEIGHT
+        ):
+            return True
+
         return False
 
     def track(self, frame):
@@ -111,14 +114,19 @@ class RecognizedObject:
         frame_height, frame_width = frame.shape[:2]
 
         # If the capture frame orientation is not set, use previous strategy
-        if self.config.CAPTURE_FRAME_ORIENTATION is None:
+        if not self.config.HAS_CAPTURE_FRAME:
             # Check if bounding box has reached edge of frame
             frame_height, frame_width = frame.shape[:2]
             if any([coord <= 0 or coord >= dim for coord, dim in zip(self.track_piece[:2], [frame_width, frame_height])]):
                 # Left or right edge, or top or bottom edge
                 self.lost_track = True
-        else:
+        else:            
             self.lost_track = self.has_surpassed_capture_frame(x, y)
+            #cv2.rectangle(frame, (self.config.CAPTURE_FRAME_X, self.config.CAPTURE_FRAME_Y), 
+            #    (self.config.CAPTURE_FRAME_X + self.config.CAPTURE_FRAME_WIDTH, 
+            #    self.config.CAPTURE_FRAME_Y + self.config.CAPTURE_FRAME_HEIGHT), 
+            #    (0, 255, 0), 2)
+
 
         if not self.lost_track:
             self.draw(frame)

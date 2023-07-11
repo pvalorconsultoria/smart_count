@@ -53,6 +53,28 @@ class ObjectTracker:
         self.recognized_objects = [v for k, v in enumerate(self.recognized_objects) 
                                    if k not in delete_indexes]
 
+    def has_surpassed_capture_frame(self, x, y):
+        """
+        Checks if the bounding box has surpassed the capture frame.
+
+        Parameters:
+        x (int): The x-coordinate of the top left corner of the bounding box.
+        y (int): The y-coordinate of the top left corner of the bounding box.
+
+        Returns:
+        bool: True if the bounding box has surpassed the capture frame, False otherwise.
+        """
+        if not self.config.HAS_CAPTURE_FRAME:
+            return False
+
+        if not (
+            self.config.CAPTURE_FRAME_X <= x <= self.config.CAPTURE_FRAME_X + self.config.CAPTURE_FRAME_WIDTH and
+            self.config.CAPTURE_FRAME_Y <= y <= self.config.CAPTURE_FRAME_Y + self.config.CAPTURE_FRAME_HEIGHT
+        ):
+            return True
+
+        return False
+
     def filter_detections(self, detections):
         filtered_detections = []
         
@@ -66,10 +88,14 @@ class ObjectTracker:
                 overlap = False
                 dc_bbox = clip.get_bounding_coords()
 
+                # Check if the bounding box is inside the capture frame
+                if self.config.HAS_CAPTURE_FRAME and self.has_surpassed_capture_frame(dc_bbox[0], dc_bbox[1]):
+                    continue
+
                 for recognized_object in self.recognized_objects:
                     ro_bbox = recognized_object.get_bounding_coords()
 
-                    if calculate_iou(dc_bbox, ro_bbox) > 0.05:
+                    if calculate_iou(dc_bbox, ro_bbox) > self.config.ALLOWED_IOU:
                         overlap = True
                         break
 

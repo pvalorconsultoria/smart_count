@@ -50,6 +50,13 @@ class ImageClip:
         y (int): The y-coordinate of the clip.
         image (Any): The image data of the clip.
         """
+        if image is None:
+            raise TypeError("Image argument cannot be None")
+
+        expected_shape = (object_config.CLIP_HEIGHT, object_config.CLIP_WIDTH, 3)
+        if image.shape != expected_shape:
+            raise ValueError(f"Invalid image dimensions: expected {expected_shape}, got {image.shape}")
+
         self.config = object_config
         self.x = x
         self.y = y

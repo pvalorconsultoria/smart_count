@@ -1,3 +1,4 @@
+import numpy as np
 import cv2
 from src.bounding_box import BoundingBox
 
@@ -19,13 +20,18 @@ class Contour:
         Calculate the area of the contour.
         :return: The area of the contour.
         """
-        return cv2.contourArea(self.contour)
+        try:
+            return cv2.contourArea(self.contour)
+        except cv2.error:
+            raise ValueError("Invalid contour data. Expected numpy array.")
 
     def draw(self, frame):
         """
         Draw the contour on the frame.
         :param frame: The frame where the contour will be drawn.
         """
+        if not isinstance(frame, np.ndarray):
+            raise ValueError("Invalid frame. Frame must be a numpy array.")
         cv2.drawContours(frame, [self.contour], 0, (0, 255, 0), 2)
     
     def get_bounding_box(self):
@@ -46,7 +52,10 @@ def get_contours_from_frames(frame1, frame2) -> list[Contour]:
     :param frame2: The second image frame.
     :return: A list of Contour objects representing detected contours.
     """
-    
+
+    if not isinstance(frame1, np.ndarray) or not isinstance(frame2, np.ndarray):
+        raise ValueError("Frames must be numpy arrays.")
+
     # Calculate the absolute difference between the two input frames.
     diff = cv2.absdiff(frame1, frame2)
 

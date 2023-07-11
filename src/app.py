@@ -172,7 +172,6 @@ class App:
         # The Detection class or function should now also accept the configuration of the object as a parameter.
         # The detection model of the object can then be used to classify the contours.
         object_config = self._get_object_config(object_name)
-
         return [Detection(self.current_frame, contour, object_config) for contour in contours]
 
     def _draw_frame(self, contours, recognized_objects):

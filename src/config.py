@@ -12,15 +12,19 @@ class ObjectConfig:
     MAX_AREA: int
     CLIP_WIDTH: int
     CLIP_HEIGHT: int
+    ALLOWED_IOU: float
     DETECTION_THRESHOLD: float
     TF_MODEL_PATH: str
 
     CLIP_STRATEGY: Optional[str] = None
     CONVEYOR_DIRECTION: Optional[int] = None
     CONVEYOR_SPEED: Optional[int] = None
-    CAPTURE_FRAME_ORIENTATION: Optional[str] = None
-    CAPTURE_FRAME_START: Optional[int] = None
-    CAPTURE_FRAME_END: Optional[int] = None
+
+    HAS_CAPTURE_FRAME: Optional[bool] = False
+    CAPTURE_FRAME_X: Optional[int] = None
+    CAPTURE_FRAME_Y: Optional[int] = None
+    CAPTURE_FRAME_WIDTH: Optional[int] = None
+    CAPTURE_FRAME_HEIGHT: Optional[int] = None
 
 
 class DependencyManager:

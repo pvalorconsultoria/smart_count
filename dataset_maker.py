@@ -10,7 +10,7 @@ cap = cv2.VideoCapture(video_path)
 
 is_moving = False
 frame = None
-count = 146
+count = 70
 
 target_x, target_y = None, None
 
