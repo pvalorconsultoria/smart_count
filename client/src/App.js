@@ -9,7 +9,7 @@ function App() {
     <Container fluid>
       <Row>
         <SideBar />
-        <Col sm={10}>
+        <Col sm={10} style={{paddingLeft: "0px"}}>
           <Header />
           <VideoFeed />
         </Col>

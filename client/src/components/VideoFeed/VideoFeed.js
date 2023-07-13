@@ -3,12 +3,12 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 
 const VideoFeed = () => (
   <Row>
-    <Col>
+    <Col xs={6}>
       <Container style={{ marginTop: "20px" }}>
-        <Card style={{ width: "40%", height: "40%" }}>
+        <Card>
           <Card.Header>Video Feed</Card.Header>
           <Card.Body>
-            <img src="/video_feed" alt="Video Feed" style={{ width: "100%", height: "100%" }}/>
+            <img src="/video_feed" alt="Video Feed" style={{ maxHeight: "80vh", width: "auto", height: "auto" }}/>
           </Card.Body>
         </Card>
       </Container>

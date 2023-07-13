@@ -8,11 +8,6 @@ const Header = () => (
         <Navbar.Brand href="#home">Dashboard</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#cameras">Câmeras</Nav.Link>
-            <Nav.Link href="#processedBatches">Lotes Processados</Nav.Link>
-          </Nav>
           <Nav style={{ marginLeft: "auto", marginRight: "100px" }}>
             <Dropdown alignRight >
               <Dropdown.Toggle variant="success" id="dropdown-basic">
