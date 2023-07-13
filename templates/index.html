@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Video Streaming</title>
-    </head>
-    <body>
-        <img src="/video_feed" />
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React App</title>
+    <!-- Add the link to your bundled CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <!-- Add a div element where your React app will be mounted -->
+    <div id="root"></div>
+
+    <!-- Add the link to your bundled JavaScript file -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
 </html>

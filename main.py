@@ -15,9 +15,7 @@ if __name__ == '__main__':
 
     app = App(path, config)
 
-    template_dir = 'C:\\Users\\diego\\Code\\OpenCV\\templates'
-
-    webapp = WebApplication(app, template_dir)
+    webapp = WebApplication(app)
 
     webapp.run()
 

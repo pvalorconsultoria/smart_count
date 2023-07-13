@@ -5,3 +5,5 @@ assets/*.mp4
 assets/*.png
 *.h5
 old
+package-lock.json
+node_modules
