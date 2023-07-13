@@ -1,7 +1,7 @@
 import cv2
 
 from src.app import App
-from src.web.webapp import WebApplication
+from src.client.webapp import WebApplication
 
 if __name__ == '__main__':
     #path = "assets\\video.mp4"
@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     app = App(path, config)
 
-    webapp = WebApplication(app)
+    webapp = WebApplication()
 
     webapp.run()
 
