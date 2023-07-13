@@ -2,7 +2,7 @@ from attr import dataclass
 
 import yaml
 
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 @dataclass
 class ObjectConfig:
@@ -25,18 +25,6 @@ class ObjectConfig:
     CAPTURE_FRAME_Y: Optional[int] = None
     CAPTURE_FRAME_WIDTH: Optional[int] = None
     CAPTURE_FRAME_HEIGHT: Optional[int] = None
-
-
-class DependencyManager:
-    config = None
-
-    @staticmethod
-    def set_config(config):
-        DependencyManager.config = config
-
-    @staticmethod
-    def get_config():
-        return DependencyManager.config
 
 class Config:
     def __init__(self, config_file):

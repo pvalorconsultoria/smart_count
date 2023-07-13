@@ -12,7 +12,8 @@ class Api(object):
                 "linhaDeProducao": "Padrão",
                 "planta": "Padrão",
                 "quantidadeContada": 42,
-                "videoPath": "assets\\video.mp4"
+                "videoPath": "assets\\video.mp4",
+                "modelConfig": "config\\basic.yaml"
             },
             {
                 "dataDeProcessamento": "13/07/2023",
@@ -21,7 +22,8 @@ class Api(object):
                 "linhaDeProducao": "Padrão",
                 "planta": "Padrão",
                 "quantidadeContada": 42,
-                "videoPath": "assets\\video2.mp4"
+                "videoPath": "assets\\video2.mp4",
+                "modelConfig": "config\\basic.yaml"
             },
             {
                 "dataDeProcessamento": "13/07/2023",
@@ -30,7 +32,8 @@ class Api(object):
                 "linhaDeProducao": "Campo Limpo Paulista",
                 "planta": "Thyssen-Krupp",
                 "quantidadeContada": 42,
-                "videoPath": "assets\\video_thyssen.mp4"
+                "videoPath": "assets\\video_thyssen.mp4",
+                "modelConfig": "config\\thyssen_krupp.yaml"
             },
             {
                 "dataDeProcessamento": "13/07/2023",
@@ -39,6 +42,7 @@ class Api(object):
                 "linhaDeProducao": "Casa",
                 "planta": "Belo Horizonte",
                 "quantidadeContada": 42,
-                "videoPath": "assets\\video_clips.mp4"
+                "videoPath": "assets\\video_clips.mp4",
+                "modelConfig": "config\\clips.yaml"
             }
         ]

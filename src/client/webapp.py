@@ -7,6 +7,18 @@ from flask import request
 from src.app import App
 from src.api.api import Api
 
+class StoppableThread(threading.Thread):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._stop_event = threading.Event()
+
+    def stop(self):
+        self._stop_event.set()
+
+    def is_stopped(self):
+        return self._stop_event.is_set()
+
+
 class WebApplication:
     """
     A class to encapsulate a Flask application that shows the video stream in a web browser.
@@ -57,13 +69,16 @@ class WebApplication:
             """Handle the POST request for video processing."""
             # Stop current processing thread if it exists and is alive
             if self.processing_thread and self.processing_thread.is_alive():
+                self.processing_thread.stop()
                 self.processing_thread.join()
 
             # Get data sent as JSON and perform processing
             data = request.get_json()
-            print(data)
 
-            self.app = App(path, config)
+            video_path = data["videoPath"]
+            model_config = data["modelConfig"]
+
+            self.app = App(video_path, model_config)
 
             # Start new processing thread
             self._start_processing()
@@ -88,14 +103,14 @@ class WebApplication:
             return
 
         # Create and start new processing thread
-        self.processing_thread = threading.Thread(target=self._process_app_frames, daemon=True)
+        self.processing_thread = StoppableThread(target=self._process_app_frames, daemon=True)
         self.processing_thread.start()
 
     def _process_app_frames(self):
         """
         Process frames in a loop using the App instance.
         """
-        while self.app.is_opened():
+        while self.app.is_opened() and not self.processing_thread.is_stopped():
             self.app.process_frame()
 
     def run(self):

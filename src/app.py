@@ -5,7 +5,7 @@ from src.detection import DetectionValidator, Detection
 from src.tracker import ObjectTracker
 from src.contour import get_contours_from_frames, filter_contours, Contour
 
-from src.config import Config, DependencyManager
+from src.config import Config
 
 class App:
     """
@@ -18,7 +18,6 @@ class App:
         :param video_path: Path to the video file.
         """
         self.config = Config(config_file)
-        DependencyManager.set_config(self.config)
         
         self._init_video(video_path)
         self._init_tracking_and_detection()
