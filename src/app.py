@@ -26,8 +26,8 @@ class App:
         self._init_capture_if_needed()
 
         # Register the mouse event handler
-        cv2.namedWindow(self.config.FRAME_NAME)
-        cv2.setMouseCallback(self.config.FRAME_NAME, self._handle_mouse_event)
+        #cv2.namedWindow(self.config.FRAME_NAME)
+        #cv2.setMouseCallback(self.config.FRAME_NAME, self._handle_mouse_event)
 
     def _handle_mouse_event(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN or event == cv2.EVENT_RBUTTONDOWN:
@@ -135,7 +135,7 @@ class App:
             filtered_detections = tracker.filter_detections(detections)
             recognized_objects = self.validators[object_name].validate(filtered_detections, self.current_frame)
             tracker.add(recognized_objects)
-            self._draw_frame(contours, recognized_objects)
+            #self._draw_frame(contours, recognized_objects)
 
         #self._draw_smart_count_logo()
         #self._draw_counter()
