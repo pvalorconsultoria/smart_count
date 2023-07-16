@@ -15,6 +15,7 @@ class ObjectConfig:
     ALLOWED_IOU: float
     DETECTION_THRESHOLD: float
     TF_MODEL_PATH: str
+    TF_MODEL_COLOR: Optional[str] = 'GRAY'
 
     CLIP_STRATEGY: Optional[str] = None
     CONVEYOR_DIRECTION: Optional[int] = None

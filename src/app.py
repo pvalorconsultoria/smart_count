@@ -12,14 +12,14 @@ class App:
     A class used to encapsulate contour detection, object recognition and tracking in video frames.
     """
 
-    def __init__(self, video_path: str, config_file: str):
+    def __init__(self, video_source: str or int, config_file: str):
         """
         Constructor to initialize video file, tracking and detection, and video capture if needed.
-        :param video_path: Path to the video file.
+        :param video_source: Path to the video file or index of the webcam.
         """
         self.config = Config(config_file)
         
-        self._init_video(video_path)
+        self._init_video(video_source)
         self._init_tracking_and_detection()
         self.should_capture_video = False
         self._init_capture_if_needed()
@@ -90,13 +90,18 @@ class App:
         return None, None
 
 
-    def _init_video(self, video_path: str):
+    def _init_video(self, video_source: str or int):
         """
         Initializes video capture and reads the first two frames.
         """
-        self.cap = cv2.VideoCapture(video_path)
+        if isinstance(video_source, int):
+            print(f'Initializing video capture from webcam {video_source}')
+        else:
+            print(f'Initializing video capture from video file {video_source}')
+
+        self.cap = cv2.VideoCapture(video_source)
         if not self.cap.isOpened():
-            raise Exception("Error opening video file")
+            raise Exception("Error opening video source")
 
         self.smart_count_logo = cv2.imread(self.config.SMARTCOUNT_LOGO_PATH)
         self.smart_count_logo = cv2.resize(self.smart_count_logo, (300, 70))
@@ -180,8 +185,8 @@ class App:
         Draws frame with logo, counter and (optionally) contours and recognized objects.
         """        
         # Uncomment these if you want to draw contours and recognized objects
-        # self._draw_contours(contours)
-        # self._draw_recognized_objects(recognized_objects)
+        #self._draw_contours(contours)
+        #self._draw_recognized_objects(recognized_objects)
         cv2.imshow(self.config.FRAME_NAME, self.current_frame)
 
     def _draw_smart_count_logo(self):

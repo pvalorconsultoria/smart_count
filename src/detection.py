@@ -20,7 +20,7 @@ class DetectionValidator:
     def validate(self, detections: List['Detection'], frame: np.array) -> List[RecognizedObject]:
         """Validate the detections and classify them using the model."""
         clips = [
-            cv2.cvtColor(clip.image, cv2.COLOR_BGR2GRAY)
+            cv2.cvtColor(clip.image, cv2.COLOR_BGR2RGB if self.config.TF_MODEL_COLOR == 'RGB' else cv2.COLOR_BGR2GRAY)
             for detection in detections for clip in detection.clips
         ]
         clips = np.array(clips)[..., np.newaxis] if clips else np.array([])
