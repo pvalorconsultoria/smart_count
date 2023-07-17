@@ -3,7 +3,7 @@ import numpy as np
 
 import unittest
 from unittest.mock import Mock, patch
-from src.contour import Contour, get_contours_from_frames, filter_contours
+from src.object_counting.contour import Contour, get_contours_from_frames, filter_contours
 
 class TestContour(unittest.TestCase):
     def setUp(self):

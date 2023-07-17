@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from src.bounding_box import BoundingBox
+from src.object_counting.bounding_box import BoundingBox
 
 class Contour:
     """

@@ -3,10 +3,10 @@ import numpy as np
 from unittest.mock import Mock, patch
 
 from src.config import ObjectConfig
-from src.contour import Contour
-from src.recognized_object import RecognizedObject
+from src.object_counting.contour import Contour
+from src.object_counting.recognized_object import RecognizedObject
 from src.config import ObjectConfig
-from src.detection import Detection, DetectionValidator, ImageClip
+from src.object_counting.detection import Detection, DetectionValidator, ImageClip
 
 
 class TestDetectionValidator(unittest.TestCase):
