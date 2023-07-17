@@ -2,9 +2,9 @@ import os
 
 import cv2
 
-from src.object_counting.contour import filter_contours, get_contours_from_frames
-from src.object_counting.detection import Detection, DetectionValidator
-from src.object_counting.tracker import ObjectTracker
+from src.object_counting.v1.contour import filter_contours, get_contours_from_frames
+from src.object_counting.v1.detection import Detection, DetectionValidator
+from src.object_counting.v1.tracker import ObjectTracker
 
 class ObjectCounting:
     """

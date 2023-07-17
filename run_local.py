@@ -12,8 +12,11 @@ if __name__ == '__main__':
     #path = "assets\\video_clips.mp4"
     #config = "config\\clips.yaml"
 
-    path = 0
-    config = "config\\webcam.yaml"
+    path = "assets\\road_traffic.mp4"
+    config = "config\\road.yaml"
+
+    #path = 0
+    #config = "config\\webcam.yaml"
 
     app = App(path, config)
 

@@ -122,10 +122,10 @@ class RecognizedObject:
                 self.lost_track = True
         else:            
             self.lost_track = self.has_surpassed_capture_frame(x, y)
-            #cv2.rectangle(frame, (self.config.CAPTURE_FRAME_X, self.config.CAPTURE_FRAME_Y), 
-            #    (self.config.CAPTURE_FRAME_X + self.config.CAPTURE_FRAME_WIDTH, 
-            #    self.config.CAPTURE_FRAME_Y + self.config.CAPTURE_FRAME_HEIGHT), 
-            #    (0, 255, 0), 2)
+            cv2.rectangle(frame, (self.config.CAPTURE_FRAME_X, self.config.CAPTURE_FRAME_Y), 
+                (self.config.CAPTURE_FRAME_X + self.config.CAPTURE_FRAME_WIDTH, 
+                self.config.CAPTURE_FRAME_Y + self.config.CAPTURE_FRAME_HEIGHT), 
+                (0, 255, 0), 2)
 
 
         if not self.lost_track:

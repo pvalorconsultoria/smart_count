@@ -1,16 +1,17 @@
 import cv2
 import numpy as np
 
-PIECE_WIDTH  = 80
-PIECE_HEIGHT = 80
+PIECE_WIDTH  = 150
+PIECE_HEIGHT = 150
 
-#video_path = "C:\\Users\\diego\\Code\\OpenCV\\assets\\video_clips.mp4"
+video_path = "C:\\Users\\diego\\Code\\OpenCV\\assets\\road_traffic.mp4"
 
-cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(video_path)
 
 is_moving = False
 frame = None
-count = 48
+count = 1
 
 target_x, target_y = None, None
 
@@ -30,7 +31,7 @@ def save_target_to_folder(label):
 
     target = frame[target_y+2:target_y-2+PIECE_HEIGHT, target_x+2:target_x-2+PIECE_WIDTH, :]
 
-    cv2.imwrite(f'./datasets/WEBCAM_1/{count}_{label}.png', target)
+    cv2.imwrite(f'./datasets/ROAD_1/{count}_{label}.png', target)
 
     count += 1
 

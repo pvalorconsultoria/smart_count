@@ -1,7 +1,7 @@
 import os
 import cv2
 from src.config import Config
-from src.object_counting.object_counting import ObjectCounting
+from src.object_counting.v1 import ObjectCounting
 
 class App:
     """
@@ -61,8 +61,6 @@ class App:
 
         if self.config.DISPLAY_WINDOW:
             self._draw_frame(recognized_objects)
-            #self._draw_smart_count_logo()
-            #self._draw_counter()
 
         self._capture_video()
         self._move_to_next_frame()
