@@ -1,48 +1,32 @@
+from src.db.db import DB
+from src.db.models.batches import BatchManager, Batch
 
 class Api(object):
-    def __init__(self) -> None:
-        pass
+    def __init__(self, db_uri: str) -> None:
+        self.db = DB(db_uri)
+
+    def add_processed_batch(self, batch_data: dict):
+        with self.db.session_manager as session:
+            batch_manager = BatchManager(session)
+            new_batch = Batch(**batch_data)
+            batch_manager.add_batch(new_batch)
 
     def get_processed_batches(self):
-        return [
-            {
-                "dataDeProcessamento": "13/07/2023",
-                "camera": "001",
-                "produto": "Peça de Metal",
-                "linhaDeProducao": "Padrão",
-                "planta": "Padrão",
-                "quantidadeContada": 42,
-                "videoPath": "assets\\video.mp4",
-                "modelConfig": "config\\basic.yaml"
-            },
-            {
-                "dataDeProcessamento": "13/07/2023",
-                "camera": "001",
-                "produto": "Peça de Metal",
-                "linhaDeProducao": "Padrão",
-                "planta": "Padrão",
-                "quantidadeContada": 42,
-                "videoPath": "assets\\video2.mp4",
-                "modelConfig": "config\\basic.yaml"
-            },
-            {
-                "dataDeProcessamento": "13/07/2023",
-                "camera": "001",
-                "produto": "Rosca de Metal",
-                "linhaDeProducao": "Campo Limpo Paulista",
-                "planta": "Thyssen-Krupp",
-                "quantidadeContada": 42,
-                "videoPath": "assets\\video_thyssen.mp4",
-                "modelConfig": "config\\thyssen_krupp.yaml"
-            },
-            {
-                "dataDeProcessamento": "13/07/2023",
-                "camera": "001",
-                "produto": "Clips de Metal",
-                "linhaDeProducao": "Casa",
-                "planta": "Belo Horizonte",
-                "quantidadeContada": 42,
-                "videoPath": "assets\\video_clips.mp4",
-                "modelConfig": "config\\clips.yaml"
-            }
-        ]
+        with self.db.session_manager as session:
+            batch_manager = BatchManager(session)
+            all_batches = batch_manager.get_all_batches()
+            all_batches = [self._batch_to_dict(batch) for batch in all_batches]
+
+        return all_batches
+
+    def _batch_to_dict(self, batch: Batch) -> dict:
+        return {
+            "dataDeProcessamento": batch.dataDeProcessamento,
+            "camera": batch.camera,
+            "produto": batch.produto,
+            "linhaDeProducao": batch.linhaDeProducao,
+            "planta": batch.planta,
+            "quantidadeContada": batch.quantidadeContada,
+            "videoPath": batch.videoPath,
+            "modelConfig": batch.modelConfig
+        }

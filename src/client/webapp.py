@@ -34,7 +34,7 @@ class WebApplication:
         self.app = App(path, config)
         self.static_folder = 'C:\\Users\\diego\\Code\\OpenCV\\client\\build'
 
-        self.api = Api()
+        self.api = Api('sqlite:///smart_count.db')
 
         self.flask_app = Flask(
             __name__, 

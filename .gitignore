@@ -7,3 +7,5 @@ assets/*.png
 old
 package-lock.json
 node_modules
+
+*.db
