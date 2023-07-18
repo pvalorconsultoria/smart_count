@@ -69,6 +69,9 @@ class WebApplication:
             video_path = data["videoPath"]
             config_file = data["modelConfig"]
 
+            if video_path == "0":
+                video_path = 0
+
             self.app.start_job(video_path, config_file)
 
             # Start new processing thread

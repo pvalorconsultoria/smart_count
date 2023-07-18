@@ -1,17 +1,5 @@
-import os
-import sys
-import time
-import queue
-import datetime
-import threading
-
-import cv2
-
 from src.config import Config
 from src.job import Job
-
-from src.object_counting.v1 import ObjectCounting
-from src.object_counting.v2 import AsyncObjectCounting
 
 class App:
     def __init__(self):

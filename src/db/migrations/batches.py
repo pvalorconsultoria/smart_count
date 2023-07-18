@@ -41,6 +41,16 @@ batches = [
         "quantidadeContada": 42,
         "videoPath": "assets\\video_clips.mp4",
         "modelConfig": "config\\clips.yaml"
+    },
+    {
+        "dataDeProcessamento": "13/07/2023",
+        "camera": "001",
+        "produto": "Webcam",
+        "linhaDeProducao": "Casa",
+        "planta": "São Paulo",
+        "quantidadeContada": 42,
+        "videoPath": 0,
+        "modelConfig": "config\\webcam.yaml"
     }
 ]
 

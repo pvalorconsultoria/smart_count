@@ -1,1 +1,0 @@
-from src.object_counting.v2.frame import AsyncObjectCounting

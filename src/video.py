@@ -64,6 +64,8 @@ class VideoViewer:
     def release(self):
         cv2.destroyAllWindows()
 
+from src.tasks.v1.yolo_counting import YoloObjectCounting
+
 class VideoProcessor():
     def __init__(self, config, read_queue, processed_queue):
         self.config = config
@@ -71,14 +73,25 @@ class VideoProcessor():
         self.processed_queue = processed_queue
         self.is_processing = False
         self.result = None
-        self.current_process = None
+        self.current_thread = None
         self.current_frame = None
 
+        self.yolo_task = YoloObjectCounting()
+        self.yolo_task.preload()
+
     def _process_frame(self, frame):
-        print("Aqui 1")
-        time.sleep(10)
-        print("Aqui 2")
-        self.result = True
+        self.result = self.yolo_task.process_frame(frame)
+
+        print(self.result)
+
+        for score, label, box in zip(self.result["scores"], self.result["labels"], self.result["boxes"]):
+            box = [round(i, 2) for i in box.tolist()]
+            print(
+                f"Detected {self.yolo_task._model.config.id2label[label.item()]} with confidence "
+                f"{round(score.item(), 3)} at location {box}"
+            )
+        
+        self.is_processing = False
 
     def _start_process(self):
         self.current_frame = self.read_queue.get_nowait()
@@ -93,7 +106,7 @@ class VideoProcessor():
     def process(self):
         if not self.is_processing:
             if self.result:
-                self.processed_queue.put_nowait(self.result)
+                #self.processed_queue.put_nowait(self.result)
                 self._end_process()
 
             self._start_process()
