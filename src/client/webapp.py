@@ -7,17 +7,7 @@ from flask import request
 from src.app import App
 from src.api.api import Api
 
-class StoppableThread(threading.Thread):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._stop_event = threading.Event()
-
-    def stop(self):
-        self._stop_event.set()
-
-    def is_stopped(self):
-        return self._stop_event.is_set()
-
+from src.thread import StoppableThread
 
 class WebApplication:
     """
@@ -28,10 +18,11 @@ class WebApplication:
         """
         Constructor to initialize the Flask application.
         """
-        path = "assets\\video_thyssen.mp4"
-        config = "config\\thyssen_krupp.yaml"
 
-        self.app = App(path, config)
+        self.app = App()
+        self.video_path = None
+        self.config_file = None
+
         self.static_folder = 'C:\\Users\\diego\\Code\\OpenCV\\client\\build'
 
         self.api = Api('sqlite:///smart_count.db')
@@ -76,9 +67,9 @@ class WebApplication:
             data = request.get_json()
 
             video_path = data["videoPath"]
-            model_config = data["modelConfig"]
+            config_file = data["modelConfig"]
 
-            self.app = App(video_path, model_config)
+            self.app.start_job(video_path, config_file)
 
             # Start new processing thread
             self._start_processing()
@@ -88,8 +79,8 @@ class WebApplication:
         """
         Generate frames for video streaming from the App instance.
         """
-        while self.app.is_opened():
-            frame = self.app.current_frame.copy()
+        while self.app.is_running():
+            frame = self.app.get_current_frame().copy()
 
             if frame is not None:
                 _, jpeg = cv2.imencode('.jpg', frame)
@@ -110,8 +101,8 @@ class WebApplication:
         """
         Process frames in a loop using the App instance.
         """
-        while self.app.is_opened() and not self.processing_thread.is_stopped():
-            self.app.process_frame()
+        while self.app.is_running() and not self.processing_thread.is_stopped():
+            self.app.process()
 
     def run(self):
         """

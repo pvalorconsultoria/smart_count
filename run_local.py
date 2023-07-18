@@ -1,8 +1,9 @@
 import cv2
+import asyncio
 
 from src.app import App
 
-if __name__ == '__main__':
+def main():
     #path = "assets\\video.mp4"
     #config = "config\\basic.yaml"
     
@@ -12,17 +13,15 @@ if __name__ == '__main__':
     #path = "assets\\video_clips.mp4"
     #config = "config\\clips.yaml"
 
-    path = "assets\\road_traffic.mp4"
-    config = "config\\road.yaml"
+    video_path = "assets\\road_traffic.mp4"
+    config_file = "config\\road.yaml"
 
     #path = 0
     #config = "config\\webcam.yaml"
 
-    app = App(path, config)
+    app = App()
+    app.start_job(video_path, config_file)
 
-    while app.is_opened():
-        app.process_frame()
-
-        if cv2.waitKey(40) == 27:
-            app.release_resources()    
+if __name__ == '__main__':
+    main()
 
