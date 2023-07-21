@@ -1,18 +1,22 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
 from src.frame import Frame
 
-class AbstractTask(ABC):
-    def __init__(self):
-        super().__init__()
+class AbstractTask:
+    def __init__(self, job) -> None:
+        self.job = job
 
     @abstractmethod
-    def process_frame(self, frame: Frame):
-        pass
-
-    @abstractmethod
-    def preload(self):
+    def run(self, frame: Frame = None) -> Frame:
         pass
 
     @abstractmethod
     def release(self):
         pass
+
+class DummyTask(AbstractTask):
+    def __init__(self, job) -> None:
+        super().__init__(job)
+    
+    def run(self, frame: Frame = None) -> Frame:
+        return frame
