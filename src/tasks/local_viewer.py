@@ -21,4 +21,4 @@ class VideoLocalViewerTask(AbstractTask):
         return frame
 
     def release(self):
-        cv2.destroyAllWindows()
+        self.vis.close()

@@ -1,1 +1,0 @@
-from src.object_counting.v1.object_counting import ObjectCounting

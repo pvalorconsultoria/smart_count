@@ -6,8 +6,8 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 from src.config import Config
-from src.object_counting.v1.contour import Contour
-from src.object_counting.v1.recognized_object import RecognizedObject
+from src.models.object_counting.v1.contour import Contour
+from src.models.object_counting.v1.recognized_object import RecognizedObject
 from src.config import ObjectConfig
 
 class DetectionValidator:
