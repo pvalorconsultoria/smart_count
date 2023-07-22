@@ -12,6 +12,7 @@ from src.tasks.v1.detection import GetDetectionsTask
 from src.tasks.v1.track import TrackAndValidateTask
 from src.tasks.v2.yolo import RunYoloModelTask
 from src.tasks.v2.yolo import TrackYoloDetectionsTask
+from src.tasks.v2.yolo import RunYoloV8ModelTask
 
 class ObjectCountingV1Job(AbstractJob):
 
@@ -33,7 +34,8 @@ class ObjectCountingV2Job(AbstractJob):
 
         self.pipeline = Pipeline([
             VideoReaderTask(self),
-            RunYoloModelTask(self),
+            RunYoloV8ModelTask(self),
+            #RunYoloModelTask(self),
             TrackYoloDetectionsTask(self),
             VideoLocalViewerTask(self),
             FrameRateControlTask(self)

@@ -1,3 +1,5 @@
+import cv2
+
 from abc import abstractmethod
 
 from transformers import YolosImageProcessor, YolosForObjectDetection
@@ -14,7 +16,6 @@ def corners_to_xywh(x0, y0, x1, y1):
     w = x1 - x0
     h = y1 - y0
     return x, y, w, h
-
 
 class RunYoloModelTask(AbstractTask):
     def __init__(self, job) -> None:
@@ -37,24 +38,32 @@ class RunYoloModelTask(AbstractTask):
         outputs = self._model(**inputs)
 
         target_sizes = torch.tensor([image.shape[:2]])
-        results = self._image_processor.post_process_object_detection(outputs, threshold=0.9, target_sizes=target_sizes)[0]
+        results = self._image_processor.post_process_object_detection(outputs, threshold=0.8, target_sizes=target_sizes)[0]
 
-        predictions = self._get_predictions(results)
+        predictions = self._get_predictions(frame, results)
 
         self._current_predictions = predictions
         self._is_processing = False
 
-    def _get_predictions(self, results):
+    def _clip_box_from_frame(self, frame, bbox):
+        x, y, w, h = bbox
+
+        return frame.array()[y:y+h,x:x+w,:]
+
+    def _get_predictions(self, frame: Frame, results):
         predictions = []
         
-        for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
-            box = [round(i) for i in box.tolist()]
-            box = corners_to_xywh(*box)
+        for score, label, bbox in zip(results["scores"], results["labels"], results["boxes"]):
+            bbox = [round(i) for i in bbox.tolist()]
+            bbox = corners_to_xywh(*bbox)
+
+            #clip = self._clip_box_from_frame(frame, bbox)
 
             predictions.append({
-                "box": box,
+                "bbox": bbox,
                 "score": round(score.item(), 3),
-                "label": self._model.config.id2label[label.item()]
+                "label": self._model.config.id2label[label.item()],
+                "clip_frame": frame.array()
             })
 
         return predictions
