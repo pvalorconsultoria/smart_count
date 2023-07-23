@@ -3,7 +3,7 @@ from src.frame import Frame
 from src.tasks.task import AbstractTask
 
 class FrameRateControlTask(AbstractTask):
-    def __init__(self, job, fps=15):
+    def __init__(self, job, fps=27):
         super().__init__(job)
 
         self._fps = fps

@@ -35,7 +35,6 @@ class ObjectCountingV2Job(AbstractJob):
         self.pipeline = Pipeline([
             VideoReaderTask(self),
             RunYoloV8ModelTask(self),
-            #RunYoloModelTask(self),
             TrackYoloDetectionsTask(self),
             VideoLocalViewerTask(self),
             FrameRateControlTask(self)
